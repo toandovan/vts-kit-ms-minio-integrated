@@ -4,6 +4,10 @@ This library provides utilities that make it easy to integrate MinIO storage int
 
 Feature List:
 * [Upload Multipartfile](#upload-multipartfile)
+* [Upload Bytes](#Upload-Bytes)
+* [Upload String](#Upload-String)
+* [Remove File](#Remove-File)
+* [Get File](#Get-File)
 
 Quick start
 -------
@@ -38,6 +42,22 @@ Usage
 ##### Upload MultipartFile
 ```java
 ObjectWriteResponse rsUpload = minioService.uploadMultipartFile(file);
+```
+##### Upload Bytes
+```java
+UploadResult  upload= uploadBytes(String fileName, byte[] bytes, String contentType)
+```
+##### Upload String
+```java
+UploadResult  upload= uploadString(String content)
+```
+##### Remove File
+```java
+void removeFile(String filePath)
+```
+##### Get File
+```java
+Byte[] file= getFile(String filePath)
 ```
 
 Build

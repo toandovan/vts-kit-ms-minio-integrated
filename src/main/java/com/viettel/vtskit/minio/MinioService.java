@@ -4,13 +4,15 @@ import com.viettel.vtskit.minio.configuration.ConstantConfiguration;
 import com.viettel.vtskit.minio.configuration.MinioProperties;
 import com.viettel.vtskit.minio.model.UploadResult;
 import com.viettel.vtskit.minio.utils.StringUtils;
-import io.minio.MinioClient;
-import io.minio.ObjectWriteResponse;
-import io.minio.PutObjectArgs;
+import io.minio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 
 public class MinioService {
@@ -52,6 +54,36 @@ public class MinioService {
         byte[] fileData = content.getBytes(Charset.forName("UTF-8"));
         String randomName = String.format("%s.txt", StringUtils.randomString());
         return uploadBytes(randomName, fileData, "text/plain");
+    }
+
+    public void removeFile(String filePath) throws Exception {
+        try {
+            minioClient.removeObject(
+                    RemoveObjectArgs.builder().bucket(minioProperties.getBucket()).object(filePath).build());
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public byte[] getFile(String filePath) throws Exception {
+        try (InputStream stream = minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(minioProperties.getBucket())
+                        .object(filePath)
+                        .build())) {
+            if (stream == null) {
+                try (InputStream streamAgain = minioClient.getObject(
+                        GetObjectArgs.builder()
+                                .bucket(minioProperties.getBucket())
+                                .object(File.separator + "crm-orig" + File.separator + filePath)
+                                .build())) {
+                    return IOUtils.toByteArray(streamAgain);
+                }
+            }
+            return IOUtils.toByteArray(stream);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Autowired

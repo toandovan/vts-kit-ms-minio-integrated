@@ -65,6 +65,16 @@
             <artifactId>tomcat-embed-core</artifactId>
             <version>9.0.60</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>commons-io</groupId>-->
+<!--            <artifactId>commons-io</artifactId>-->
+<!--            <version>2.11.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.minio</groupId>-->
+<!--            <artifactId>minio</artifactId>-->
+<!--            <version>8.4.1</version>-->
+<!--        </dependency>-->
         <!-- End Spring Boot -->
 
         <!-- Unit Test -->
@@ -87,6 +97,12 @@
             <scope>test</scope>
         </dependency>
         <!-- End Unit Test -->
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
 
         <!-- Min IO -->
         <dependency>
